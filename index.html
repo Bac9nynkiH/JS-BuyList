@@ -8,9 +8,65 @@
     <link rel="stylesheet" type="text/css" href="main.css" />
 </head>
 <body>
-	<span class="product-item">
-		Apple
-		<span class="amount">4</span>
-	</span>
+	<div class="container">
+		<div class="ContainerForMenu">
+			<div class="menu">
+				<div class="rowFirst">
+					<div class="ButAndTextArea">
+						<input type="text" placeholder="Назва товару" class="textArea"> <button class="add">додати</button>
+					</div>
+				</div>
+				<div class="row">
+					<span class="item">Помідори</span>
+					<div class="UI">
+					<button class="minus">-</button> <label class="Labelamount"><div class="DivCount">1</div></label> <button class="plus">+</button>
+					</div>
+					<div class="buttons"><button class="buy">купити</button> <button class="X">X</button></div>
+				</div>
+				<div class="row">
+					<span class="item">Печиво</span>
+					<div class="UI">
+						<button class="minus">-</button> <label class="Labelamount">
+							<div class="DivCount">1</div>
+						</label> <button class="plus">+</button>
+					</div>
+					<div class="buttons"><button class="buy">купити</button> <button class="X">X</button></div>
+				</div>
+				<div class="row">
+					<span class="item">Сир</span>
+					<div class="UI">
+						<button class="minus">-</button> <label class="Labelamount">
+							<div class="DivCount">1</div>
+						</label> <button class="plus">+</button>
+					</div>
+					<div class="buttons"><button class="buy">купити</button> <button class="X">X</button></div>
+				</div>
+			</div>
+		</div>
+		<div class="ContainerboughtMenu">
+			<div class="boughtMenu">
+				<div class="BoughtRow">
+					<h3>Залишилось</h3>
+				</div>
+				<div class="remaiders">
+					<div class="remainderTomat">
+						Помідори <span class="orangeCircleWithNumber">1</span>
+					</div>
+					<div class="remainderCookie">
+						Печиво <span class="orangeCircleWithNumber">1</span>
+					</div>
+					<div class="remainderCheese">
+						Сир <span class="orangeCircleWithNumber">1</span>
+					</div>
+				</div>
+
+				<div class="BoughtRow">
+					<h3>Куплено</h3>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
 </body>
 </html>
