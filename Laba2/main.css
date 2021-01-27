@@ -298,7 +298,7 @@ display: block;
 	display: inline-block;
 }
  [data-tooltip] {
-    position: relative; /* Относительное позиционирование */ 
+    position: relative; 
    }
    [data-tooltip]::after {
 	   border-radius: 10%;
