@@ -13,9 +13,9 @@ BoughtList.list=[
 ]
 
 var remainder_item_html =
- "<div data-del-id='{{delid}}' class='remainder' id={{remaindId}}>{{item}}<span class='orangeCircleWithNumber' id={{bought_del_id}} data-del-id='{{bought_delid}}'>{{count}}</span></div>"
+ "<div data-del-id='{{delid}}' class='remainder' id={{remaindId}}><span id='{{item_remainder_id}}' data-del-id='{{delid}}'>{{item}}</span><span class='orangeCircleWithNumber' id={{bought_del_id}} data-del-id='{{bought_delid}}'>{{count}}</span></div>"
 var item_html =
-    "<div class='row'><span spellcheck='false' data-del-id='{{delid}}' contenteditable='true' class='item' id={{itemRowId}}>{{item}}</span><div class='UI'><button data-tooltip='toolTip' class='minus' id={{minus}} >-</button><label class='Labelamount'><div class='DivCount' >{{count}}</div></label><button data-tooltip='toolTip' class='plus' id={{plus}}>+</button></div><div class='buttonsAfter' id={{buttonsAfterId}}><button data-tooltip='toolTip' class='NotBuy' id={{NotbuyBtnId}} >не куплено</button></div><div class='buttons' id={{buyId}}><button data-tooltip='toolTip' class='buy' id={{buyBtnId}} >купити</button><button  data-tooltip='toolTip' id={{del_id}} data-del-id='{{delid}}' class='X'>X</button></div></div>"
+    "<div class='row'><span spellcheck='false' data-del-id='{{delid}}' data-item-name='{{delname}}' contenteditable='true' class='item' id={{itemRowId}}>{{item}}</span><div class='UI'><button data-tooltip='toolTip' class='minus' id={{minus}} >-</button><label class='Labelamount'><div class='DivCount' >{{count}}</div></label><button data-tooltip='toolTip' class='plus' id={{plus}}>+</button></div><div class='buttonsAfter' id={{buttonsAfterId}}><button data-tooltip='toolTip' class='NotBuy' id={{NotbuyBtnId}} >не куплено</button></div><div class='buttons' id={{buyId}}><button data-tooltip='toolTip' class='buy' id={{buyBtnId}} >купити</button><button  data-tooltip='toolTip' id={{del_id}} data-del-id='{{delid}}' class='X'>X</button></div></div>"
 function showlist() {
     $("#contForRow").html("");
     $("#remainders").html("");
@@ -33,11 +33,13 @@ function showlist() {
         .replace('{{item}}',item.name)
         .replace('{{count}}',item.count)
         .replace("{{delid}}", i)
+        .replace('{{item_remainder_id}}','item_remainder_id_'+i)
         .replace('{{del_id}}',del_bought_item_id)
         .replace('{{bought_delid}}',i);
 
         var current_item_html = item_html
             .replace("{{plus}}",plusBtnId)
+            .replace('{{delname}}',item.name)
             .replace('{{itemRowId}}',item.name+i)
             .replace("{{buyId}}",'buy_Id'+i)
             .replace("{{buyBtnId}}",i)
@@ -57,7 +59,7 @@ function showlist() {
         $('.inCart').append(current_bought_remind);
 
         if(!BuyList.list[i].bought)
-            $('#boughtRemindId_' + i).css({ 'display': 'none'})
+            $('#boughtRemindId_' + i).css({ 'display': 'none'});
 
         $("#" + del_item_id).click(function () {
             remove_item($(this).attr("data-del-id"));
@@ -80,6 +82,12 @@ function showlist() {
             BuyList.list[this.id].bought = false;
             showlist();
         });
+        $('#' + item.name + i).keydown(function () {
+            var value =$('#' + $(this).attr('data-item-name') + $(this).attr("data-del-id")).html();
+            BuyList.list[$(this).attr("data-del-id")].name=value;
+            $('#item_remainder_id_' + $(this).attr("data-del-id")).html(value);
+        });
+       
       
         if(BuyList.list[i].count>1)
         $('#'+i+'.minus').css({'opacity':'1','cursor':'pointer'});
@@ -90,13 +98,13 @@ function showlist() {
         $('#'+i+'.buttonsAfter').css({'display':'inline-block'});
         $('#' + 'buy_Id' + i).css({'display':'none'});
         $('#' + 'remaindId_' + i).css({'display':'none'});
-        }
+        $('#'+item.name+i).css({ 'text-decoration': 'line-through' });
+        $('#' + 'boughtRemindId_' + i).css({ 'text-decoration': 'line-through' });
+        };
+        
 
-        var change = $('#' + item.name + i);
-        change.keydown(function(event){
-            BuyList.list[$(this).attr("data-del-id")].name+=event;
-            $('#' + 'remaindId_' + i).html('');
-        })
+        
+      
         
 
     }
@@ -121,5 +129,23 @@ $('.add').click(function() {
     showlist();
 }
 })
+
+
+$(document).keypress(function (e) {
+    if($('#textArea').is(':focus'))
+    if (e.which == 13) {
+        if ($("#textArea").val() != "")
+            BuyList.list.push({
+                name: $("#textArea").val(), 
+                count: 1,
+                bought: false
+            });
+        $("#textArea").val("");
+        showlist();
+    }
+});
+    
+   
+
 
 
